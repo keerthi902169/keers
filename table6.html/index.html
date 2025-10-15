@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FarmConnect</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap">
+  <style>
+    body { margin: 0; font-family: 'Montserrat', Arial, sans-serif; background: #f6f9f6; color: #282828; }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: #fff;
+      box-shadow: 0 2px 7px rgba(0,0,0,0.04);
+    }
+    .logo { color: #26913a; font-weight: 700; font-size: 1.3rem; display: flex; align-items: center; }
+    .logo::before { content: "🌱"; font-size: 1.7rem; margin-right: 10px; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a {
+      text-decoration: none;
+      color: #282828;
+      font-size: 1.06rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active { color: #26913a; }
+    .auth-buttons button {
+      font-family: inherit;
+      font-weight: 600;
+      color: #fff;
+      background: #26913a;
+      border: none;
+      border-radius: 5px;
+      margin-left: 8px;
+      padding: 9px 21px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.18s;
+    }
+    .auth-buttons .login {
+      background: #fff;
+      color: #26913a;
+      border: 1.5px solid #26913a;
+    }
+    .auth-buttons .login:hover,
+    .auth-buttons button:hover {
+      background: #185e29;
+      color: #fff;
+      border-color: #185e29;
+    }
+    .section {
+      display: none;
+      min-height: 450px;
+      padding: 50px 0 25px 0;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+      background: #f6f9f6;
+    }
+    .section.active { display: flex; }
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 500px;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(34, 60, 20, 0.38);
+      z-index: 1;
+    }
+    .hero-content {
+      z-index: 2;
+      position: relative;
+      padding: 62px 20px 18px 20px;
+      color: #fff;
+      max-width: 760px;
+    }
+    .hero-title { font-size: 2.7rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+    .hero-highlight { color: #ffe154; font-size: 2.1rem; font-weight: 700;}
+    .hero-desc {
+      font-size: 1.11rem;
+      margin-bottom: 35px;
+      margin-top: 18px;
+      font-weight: 500;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      justify-content: center;
+    }
+    .hero-actions button,
+    .hero-actions a {
+      padding: 12px 27px;
+      font-size: 1.11rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.16s, color 0.14s, border 0.14s;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    .join-farmer    { background: #27ae60; color: #fff;    }
+    .join-farmer:hover    { background: #19682d; }
+    .join-expert    { background: #ffe082; color: #3a3535;}
+    .join-expert:hover { background: #f7c948; }
+    .explore-public { background: transparent; color: #fff; border:2px solid #fff; }
+    .explore-public:hover { background: #fff; color: #1f3822; }
+    @media (max-width:750px) {
+      .hero-title { font-size: 1.39rem;}
+      .hero-highlight { font-size: 1.05rem;}
+      .hero-content { padding: 22px 2vw 8px 2vw; }
+      .navbar { padding: 8px 7px; }
+      .nav-links { gap: 10px; }
+    }
+    .page-title { font-size: 2.1rem; font-weight: bold; margin-bottom: 17px; color: #26913a; }
+    .login-form input { font-size: 1rem; margin: 10px 8px; padding: 8px; border-radius: 4px; border: 1px solid #aaa; }
+    .login-form button { background: #27ae60; color: #fff; border: none; padding: 10px 26px; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">FarmConnect</div>
+    <nav class="nav-links">
+      <a class="active" onclick="showSection('hero')">Home</a>
+      <a onclick="showSection('resources')">Resources</a>
+      <a onclick="showSection('experts')">Experts</a>
+      <a onclick="showSection('community')">Community</a>
+      <a onclick="showSection('explore')">Explore</a>
+    </nav>
+    <div class="auth-buttons">
+      <button class="login" onclick="showSection('login')">Login</button>
+      <button onclick="showSection('signup')">Sign Up</button>
+    </div>
+  </header>
+  <section id="hero" class="hero section active">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-title">Inspiring Society About <span class="hero-highlight">Sustainable Farming</span></div>
+      <div class="hero-desc">Connecting farmers with resources, experts, and communities to build a sustainable agricultural future.</div>
+      <div class="hero-actions">
+        <button class="join-farmer" onclick="showSection('farmer')">Join as Farmer →</button>
+        <button class="join-expert" onclick="showSection('expert')">Join as Expert</button>
+        <a class="explore-public" href="#" onclick="showSection('explore')">Explore as Public</a>
+      </div>
+    </div>
+  </section>
+  <section id="resources" class="section">
+    <div>
+      <div class="page-title">Resources</div>
+      <p>Access guides and materials to support modern and sustainable farming. (Editable content here.)</p>
+    </div>
+  </section>
+  <section id="community" class="section">
+    <div>
+      <div class="page-title">Community</div>
+      <p>Join the community, discuss farming innovations, and connect with peers. (Editable content here.)</p>
+    </div>
+  </section>
+  <section id="experts" class="section">
+    <div>
+      <div class="page-title">Experts</div>
+      <p>Find agricultural experts for guidance, advice, and collaboration. (Editable content here.)</p>
+    </div>
+  </section>
+  <section id="explore" class="section">
+    <div>
+      <div class="page-title">Explore</div>
+      <p>Discover more about sustainable agriculture and farming sectors. (Editable content here.)</p>
+    </div>
+  </section>
+  <section id="farmer" class="section">
+    <div>
+      <div class="page-title">Farmer Registration / Info</div>
+      <p>Edit this page to include registration or information for farmers.</p>
+      <button onclick="showSection('hero')">← Back to Home</button>
+    </div>
+  </section>
+  <section id="expert" class="section">
+    <div>
+      <div class="page-title">Expert Registration / Info</div>
+      <p>Edit this page for expert user info or registration.</p>
+      <button onclick="showSection('hero')">← Back to Home</button>
+    </div>
+  </section>
+  <section id="login" class="section">
+    <div>
+      <div class="page-title">Login</div>
+      <form class="login-form" onsubmit="event.preventDefault(); showSection('hero');">
+        <input type="text" placeholder="Username" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </section>
+  <section id="signup" class="section">
+    <div>
+      <div class="page-title">Sign Up</div>
+      <form class="login-form" onsubmit="event.preventDefault(); showSection('hero');">
+        <input type="text" placeholder="Name" required>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit">Sign Up</button>
+      </form>
+      <button style="margin-top:16px;" onclick="showSection('hero')">← Back to Home</button>
+    </div>
+  </section>
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      // Navbar link highlighting
+      document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+      if (id === 'hero') document.querySelector('.nav-links a').classList.add('active');
+      else if (document.querySelector(`.nav-links a[onclick*="${id}"]`))
+        document.querySelector(`.nav-links a[onclick*="${id}"]`).classList.add('active');
+    }
+  </script>
+</body>
+</html>

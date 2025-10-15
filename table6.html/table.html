@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Flexbox Cards</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+        h2 {
+            text-align: center;
+            margin: 32px 0 16px 0;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+            padding: 32px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 24px 20px;
+            width: 300px;
+            flex: 0 1 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+        }
+        .card h3 {
+            margin: 0 0 10px;
+            color: #1976d2;
+        }
+        .card p {
+            flex-grow: 1;
+            margin-bottom: 16px;
+            color: #444;
+        }
+        .card button {
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .card button:hover {
+            background: #125ea6;
+        }
+        @media only screen and (max-width: 800px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                padding: 16px;
+            }
+            .card {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Responsive Flexbox Cards</h2>
+    <div class="container">
+        <div class="card">
+            <h3>Card 1</h3>
+            <p>This is a simple card with some content inside.</p>
+            <button>Learn More</button>
+        </div>
+        <div class="card">
+            <h3>Card 2</h3>
+            <p>Cards are flexible and responsive thanks to CSS Flexbox.</p>
+            <button>See More</button>
+        </div>
+        <div class="card">
+            <h3>Card 3</h3>
+            <p>Add or remove cards as needed. Try resizing the window!</p>
+            <button>Details</button>
+        </div>
+    </div>
+</body>
+</html>
