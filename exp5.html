@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Form Validation</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  padding: 30px;
+}
+
+.form-container {
+  width: 350px;
+  background: #fff;
+  padding: 20px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+input.valid {
+  border-color: green;
+}
+
+input.invalid {
+  border-color: red;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-container">
+  <h2>Registration Form</h2>
+
+  <form id="registerForm">
+    
+    <label>Full Name</label>
+    <input type="text" id="name" required>
+    <p class="error" id="nameErr"></p>
+
+    <label>Email</label>
+    <input type="email" id="email" required>
+    <p class="error" id="emailErr"></p>
+
+    <label>Password</label>
+    <input type="password" id="password" required>
+    <p class="error" id="passErr"></p>
+
+    <label>Phone Number</label>
+    <input type="tel" id="phone" required>
+    <p class="error" id="phoneErr"></p>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <p class="success-message" id="successMsg">Registration Successful ✅</p>
+</div>
+
+<script>
+const nameField = document.getElementById("name");
+const emailField = document.getElementById("email");
+const passField = document.getElementById("password");
+const phoneField = document.getElementById("phone");
+
+const nameErr = document.getElementById("nameErr");
+const emailErr = document.getElementById("emailErr");
+const passErr = document.getElementById("passErr");
+const phoneErr = document.getElementById("phoneErr");
+const successMsg = document.getElementById("successMsg");
+
+function validateName() {
+  if (nameField.value.trim() === "") {
+    nameErr.textContent = "Full name is required";
+    nameField.classList.add("invalid");
+    nameField.classList.remove("valid");
+    return false;
+  }
+  nameErr.textContent = "";
+  nameField.classList.add("valid");
+  nameField.classList.remove("invalid");
+  return true;
+}
+
+function validateEmail() {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!pattern.test(emailField.value)) {
+    emailErr.textContent = "Enter a valid email";
+    emailField.classList.add("invalid");
+    emailField.classList.remove("valid");
+    return false;
+  }
+  emailErr.textContent = "";
+  emailField.classList.add("valid");
+  emailField.classList.remove("invalid");
+  return true;
+}
+
+function validatePassword() {
+  const strongPass = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
+  if (!strongPass.test(passField.value)) {
+    passErr.textContent = "Min 6 chars, 1 uppercase, 1 number, 1 special char";
+    passField.classList.add("invalid");
+    passField.classList.remove("valid");
+    return false;
+  }
+  passErr.textContent = "";
+  passField.classList.add("valid");
+  passField.classList.remove("invalid");
+  return true;
+}
+
+function validatePhone() {
+  const phonePattern = /^[0-9]{10}$/;
+  if (!phonePattern.test(phoneField.value)) {
+    phoneErr.textContent = "Enter 10-digit phone number";
+    phoneField.classList.add("invalid");
+    phoneField.classList.remove("valid");
+    return false;
+  }
+  phoneErr.textContent = "";
+  phoneField.classList.add("valid");
+  phoneField.classList.remove("invalid");
+  return true;
+}
+
+// Real-time validation
+nameField.addEventListener("input", validateName);
+emailField.addEventListener("input", validateEmail);
+passField.addEventListener("input", validatePassword);
+phoneField.addEventListener("input", validatePhone);
+
+// Form submit
+document.getElementById("registerForm").addEventListener("submit", (e) => {
+  if (!validateName() || !validateEmail() || !validatePassword() || !validatePhone()) {
+    e.preventDefault();
+    successMsg.style.display = "none";
+  } else {
+    e.preventDefault(); 
+    successMsg.style.display = "block"; 
+    successMsg.scrollIntoView({ behavior: "smooth" });
+  }
+});
+</script>
+
+</body>
+</html>

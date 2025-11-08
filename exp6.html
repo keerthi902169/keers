@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Weather App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #e3f2fd;
+  text-align: center;
+  padding: 30px;
+}
+.container {
+  max-width: 400px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+input, button {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+}
+button {
+  background: #1565c0;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 6px;
+}
+button:hover {
+  background: #0d47a1;
+}
+#weather {
+  margin-top: 20px;
+  font-size: 18px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🌤️ Weather App</h2>
+
+  <input type="text" id="city" placeholder="Enter City Name" required>
+  <button onclick="getWeather()">Get Weather</button>
+
+  <p id="weather"></p>
+  <p id="error" style="color:red;"></p>
+</div>
+
+<script>
+const apiKey = "819d06dc8fd3a5af77b157f5ecfe3aef"; // ✅ Your API Key
+
+async function getWeather() {
+  const city = document.getElementById("city").value.trim();
+  const weatherBox = document.getElementById("weather");
+  const errorBox = document.getElementById("error");
+
+  weatherBox.innerHTML = "";
+  errorBox.innerHTML = "";
+
+  if (!city) {
+    errorBox.innerHTML = "⚠ Please enter a city name";
+    return;
+  }
+
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.cod !== 200) {
+      errorBox.innerHTML = "❌ Invalid City Name";
+      return;
+    }
+
+    weatherBox.innerHTML = `
+      🌍 <b>${data.name}</b><br>
+      🌡 Temperature: <b>${data.main.temp}°C</b><br>
+      🌥 Condition: <b>${data.weather[0].description}</b><br>
+      💨 Wind: <b>${data.wind.speed} km/h</b>
+    `;
+
+    localStorage.setItem("lastCity", city);
+  } catch (err) {
+    errorBox.innerHTML = "❗ Error fetching weather";
+  }
+}
+
+// Load last city on page load
+window.onload = () => {
+  const last = localStorage.getItem("lastCity");
+  if (last) {
+    document.getElementById("city").value = last;
+    getWeather();
+  }
+};
+</script>
+
+</body>
+</html>
